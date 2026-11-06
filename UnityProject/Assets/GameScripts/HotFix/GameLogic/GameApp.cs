@@ -39,8 +39,16 @@ public partial class GameApp
         GameModule.UI.Active();
         // GameEvent.Get<ILoginUI>().ShowLoginUI();
         // GameModule.UI.ShowUIAsync<BattleMainUI>();
-        
-        GameModule.Scene.LoadSceneAsync("DesktopIdle").Forget();
+
+        StartDesktopScene().Forget();
+    }
+
+    private static async UniTaskVoid StartDesktopScene()
+    {
+        await GameModule.Scene.LoadSceneAsync("DesktopIdle");
+
+        // 场景里的对象（相机、角色、窗口组件）就绪后再搭聊天浮层。
+        DesktopChatFactory.Create();
     }
     
     private static void Release()

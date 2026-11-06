@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Game.Desktop
+namespace GameLogic
 {
     /// <summary>
     /// 演示用交互物：悬停变色、点击压缩回弹并旋转。

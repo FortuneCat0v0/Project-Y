@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Game.Desktop
+namespace GameLogic
 {
     /// <summary>
     /// 桌面窗口中的可交互物体标记。由 <see cref="DesktopClickThroughController"/> 负责命中、

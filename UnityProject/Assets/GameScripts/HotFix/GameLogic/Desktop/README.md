@@ -18,7 +18,7 @@
 | `DesktopClickThroughController` | 根据鼠标下的 UI / 碰撞体决定是否穿透，并派发悬停、点击 |
 | `DesktopGameWindow` | 移动 / 缩放游戏内容，维护两个屏幕空间手柄 |
 | `GameRoot` | 游戏内容根节点，`Ground` 与 `DemoCube` 的父级，整体位移和缩放 |
-| `GameWindow` | 屏幕空间 Overlay 画布，挂着 `MoveHandle`、`ResizeHandle` 两个手柄 |
+| `GameWindow` | 屏幕空间 Overlay 画布，挂着 `MoveHandle`、`ResizeHandle` 两个手柄；聊天浮层也挂在这块画布下 |
 | `Main Camera` | 透视相机，Clear Flags = Solid Color，背景 alpha = 0 |
 | `Ground` | 悬浮平台（Cube），作为场景地面和可见的点击捕获区域 |
 | `DemoCube` | 演示用可交互物，带 `DesktopInteractable` + `DesktopClickDemo` |
@@ -36,6 +36,27 @@
 
 内容的位置由“屏幕像素”换算到相机视线平面，因此缩放后画面仍贴合手柄框。
 `DesktopGameWindow.minScale / maxScale` 控制缩放范围（0.3 ~ 3 倍）。
+
+## 角色聊天
+
+场景里没有聊天相关的预制对象，全部在场景加载完成后由代码搭建：
+
+- [GameApp.cs](../GameApp.cs) 的 `StartDesktopScene()` 等 `LoadSceneAsync("DesktopIdle")` 完成后再调 `DesktopChatFactory.Create()`。
+- `DesktopChatFactory` 在 `GameWindow` 画布下生成 `ChatUI`（按钮 / 输入框 / 气泡），
+  圆角、圆形、三角尾巴三张切图在运行时用 `Texture2D` + `Sprite.Create` 现画，聊天图标取 `AssetRaw/UIRaw/Raw/chat.png`（YooAsset 地址 `chat`）。
+- 生成完把相机、角色、窗口组件交给 `DesktopChatUI.Initialize()`，由它负责悬停、输入和气泡逻辑。
+
+`DesktopChatUI` 按角色的屏幕包围盒定位，跟随移动和缩放：
+
+- 鼠标停在角色身上（包围盒内）或聊天按钮上时，角色右侧出现聊天按钮，移开即消失。
+- 点击按钮在头顶打开输入框，点 `×` 收起；输入内容后按回车或点 `发送`，输入框收起并在头顶弹出回复气泡（默认「你好」）。
+- 气泡按文字宽度自动撑开，`bubbleDuration` 秒后自动消失。
+- 输入框、气泡用系统字体（`Microsoft YaHei` 等）显示中文；界面尺寸随 `DesktopGameWindow.Scale` 缩放，并限制在 0.7 ~ 1.6 倍。
+
+因此聊天浮层只在正常启动流程里出现（Play `main` 场景 → 热更 → 载入 `DesktopIdle`）；
+直接 Play `DesktopIdle` 不会创建，需要时自己调一下 `DesktopChatFactory.Create()`。
+`DesktopChatUI` 在 `Initialize` 里会检查 `EventSystem`：正常流程里 `GameModule.UI.Active()` 已创建 `UIRoot/EventSystem`，
+单独 Play `DesktopIdle` 时会补一个。
 
 ## 运行方式
 

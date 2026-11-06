@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Game.Desktop
+namespace GameLogic
 {
     /// <summary>
     /// 根据鼠标下方的内容切换窗口的穿透状态：

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace Game.Desktop
+namespace GameLogic
 {
     /// <summary>
     /// 桌面放置游戏的窗口基础能力：透明背景、置顶、点击穿透。

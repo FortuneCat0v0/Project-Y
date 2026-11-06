@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Game.Desktop
+namespace GameLogic
 {
     /// <summary>
     /// 把桌面上的游戏画面当成一块可移动、可缩放的“虚拟窗口”。
@@ -49,6 +49,9 @@ namespace Game.Desktop
 
         /// <summary>是否正在拖动或缩放；期间窗口必须保持接收输入。</summary>
         public bool IsInteracting => _moving || _resizing;
+
+        /// <summary>当前内容的缩放比例，界面元素按它等比缩放。</summary>
+        public float Scale => _scale;
 
         private void Awake()
         {
