@@ -1,6 +1,9 @@
 
-UnityProject/UserSettings/Layouts/default-2021.dwlt
+UnityProject/UserSettings/Layouts/
 UnityProject/UserSettings/Search.settings
+
+#本地 Unity CLI 工具（体积大，不纳入仓库）
+UnityProject/Tools/
 
 #Luban
 Tools/Luban/
@@ -21,3 +24,6 @@ Tools/GameEventSourceGenerator/*/obj
 
 #openspec
 openspec/
+
+Release
+Test
