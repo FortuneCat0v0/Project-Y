@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Reflection;
+using Cysharp.Threading.Tasks;
 using GameLogic;
 #if ENABLE_OBFUZ
 using Obfuz;
@@ -35,8 +36,11 @@ public partial class GameApp
     
     private static void StartGameLogic()
     {
+        GameModule.UI.Active();
         // GameEvent.Get<ILoginUI>().ShowLoginUI();
-        GameModule.UI.ShowUIAsync<BattleMainUI>();
+        // GameModule.UI.ShowUIAsync<BattleMainUI>();
+        
+        GameModule.Scene.LoadSceneAsync("DesktopIdle").Forget();
     }
     
     private static void Release()
